@@ -122,3 +122,30 @@
 | 8 | 訓練大型語言模型通常需要消化大量的什麼？ | 圖片 | 結構與非結構化的文本數據 | 影片 | 音訊檔案 | B |
 | 9 | 什麼是 Token 在自然語言處理中的概念？ | 登入 AI 系統的密碼 | 文本被拆分後的基本單位（例如一個詞或一個字元） | 一種加密貨幣 | AI 模型的版本號 | B |
 | 10 | AI 回答「這我不知道」代表什麼意思？ | 電腦壞掉了 | 模型的守門員機制介入，或是訓練資料中沒有相關知識 | AI 在對人類開玩笑 | AI 正在睡覺 | B |
+
+---
+
+## 🔧 常見問題與疑難排解 (Troubleshooting)
+
+### Git 提交時要求設定 user.email 與 user.name
+
+如果你在終端機或 VS Code 提交 (Commit) 時看到這個提示：
+```bash
+Run
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+```
+
+**這兩個參數是在哪邊更新（儲存）的？**
+帶有 `--global` 的設定會套用到你的整個電腦（全域設定）。
+在 Windows 系統中，這兩個參數會儲存在你**電腦使用者資料夾**底下的隱藏檔案 `.gitconfig` 裡。
+- **實際檔案路徑：** `C:\Users\你的使用者名稱\.gitconfig`
+
+**如何解決並更新？**
+請直接在終端機（Terminal）輸入以下兩行，並替換成你的真實信箱與名字：
+```bash
+git config --global user.email "你的真實信箱@example.com"
+git config --global user.name "你的名字"
+```
+
+設定完成後，可以輸入 `git config --list` 檢查是否更新成功，接著就能正常 Commit 了！
