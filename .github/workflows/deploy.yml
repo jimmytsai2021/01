@@ -30,11 +30,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./pixel-trivia
 
       # 建立靜態檔，並直接傳入所需的環境變數（透過 GitHub Secrets 及 Variables）
       # `--base=/${{ github.event.repository.name }}/` 會自動設定正確的 baseUrl，不需去改 vite.config.js
       - name: Build project
         run: npx vite build --base=/${{ github.event.repository.name }}/
+        working-directory: ./pixel-trivia
         env:
           # 從 Repository secrets 取得
           VITE_GOOGLE_APP_SCRIPT_URL: ${{ secrets.VITE_GOOGLE_APP_SCRIPT_URL }}
@@ -48,7 +50,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist # vite 預設編譯出的資料夾是 dist
+          path: ./pixel-trivia/dist # vite 預設編譯出的資料夾是 dist
 
   deploy:
     environment:
