@@ -149,3 +149,39 @@ git config --global user.name "你的名字"
 ```
 
 設定完成後，可以輸入 `git config --list` 檢查是否更新成功，接著就能正常 Commit 了！
+
+### 部署到 GitHub Pages 時出現 "Branch 'main' is not allowed to deploy..."
+
+**錯誤訊息：**
+`Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
+
+**原因：**
+這是 GitHub 後台自動生成的 Environment 設定問題，限制了部署分支的權限。
+
+**解決步驟：**
+1. 進入 GitHub Repository 的首頁，點擊上方選單的 **Settings**。
+2. 在左側選單點擊 **Environments**。
+3. 找到 `github-pages` 環境，點擊右側的垃圾桶圖示將其**刪除**。
+4. 去左側選單點擊 **Pages**，確保 Build and deployment 下方的 Source 為 **GitHub Actions**。
+5. 回到 **Actions** 分頁，找到失敗的那次紀錄，點擊右上角的 **Re-run jobs** (重新執行)，GitHub 就會自動產生一個有著正確權限的新環境並部署成功。
+
+### 部署後網頁一片空白/只有藍底 (Could not establish connection)
+
+**錯誤訊息：**
+`Unchecked runtime.lastError: Could not establish connection...` 以及進入專案網址時畫面沒有內容。
+
+**原因：**
+專案使用了 `react-router-dom` 裡的 `BrowserRouter`。
+在 GitHub Pages 中，專案通常會被部署在 `https://<帳號>.github.io/<專案名稱>/` 的子路徑下。而 `BrowserRouter` 預設只處理根目錄 (`/`)，導致路由匹配失敗而無法渲染畫面。
+
+**解決步驟：**
+在前端程式碼中（如 `src/App.jsx` 或 `src/main.jsx`），將 `BrowserRouter` 替換為 `HashRouter`。
+採用 `HashRouter` 後，網址會變成 `/#/` 的形式，即可在 GitHub Pages 的子目錄下正常運作。
+
+```jsx
+// 將這行：
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+
+// 改成這樣：
+import { HashRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+```
